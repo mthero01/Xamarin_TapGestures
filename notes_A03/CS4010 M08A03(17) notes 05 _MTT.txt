@@ -1,0 +1,49 @@
+public partial class MonkeyTapPage 
+{ 
+  //…
+ 
+  ///
+  protected void OnStartGameButtonClicked(object sender, EventArgs args) 
+{ 
+  gameEnded = false; 
+  startGameButton.IsVisible = false; 
+
+  InitializeBoxViewColors(); 
+
+  sequence.Clear(); 
+  StartSequence(); 
+}// /hdlr
+
+  /// 
+  void StartSequence() 
+  { 
+    sequence.Add(random.Next(4)); 
+    sequenceIndex = 0; 
+
+    Device.StartTimer(TimeSpan.FromMilliseconds(sequenceTime), OnTimerTick); 
+  } 
+
+  /// 
+  bool onTimerTick() 
+  { 
+    if (gameEnded) 
+     return false; 
+   FlashBoxView(sequence[sequenceIndex]); 
+   sequenceIndex++; 
+   awaitingTaps = (sequenceIndex == sequence.Count); 
+   sequenceIndex = awaitingTaps ? 0 : sequenceIndex; 
+   return !awaitingTaps; 
+  } // /hdlr
+  
+  /// 
+  protected virtual void FlashBoxView(int index) 
+  { 
+    boxViews[index].Color = colors[index].WithLuminosity(onLuminosity); 
+    
+    Device.StartTimer(TimeSpan.FromMilliseconds(flashDuration), () => { 
+      if (gameEnded) return false; 
+      boxViews[index].Color = colors[index].WithLuminosity(offLuminosity); 
+      return false; 
+}); // /
+}// /meth 'FlashBoxView'
+

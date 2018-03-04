@@ -1,0 +1,14 @@
+BoxView boxViewBlue = new BoxView 
+{
+  Color = Color.Navy
+};
+
+TapGestureRecognizer tapGesture = new TapGestureRecognizer();
+tapGesture.Tapped += onBoxViewTapped; //lsnr
+boxViewBlue.GestureRecognizers.Add(tapGesture);
+
+void onBoxViewTapped(object sender, EventArgs args)
+{
+  
+}// /hdlr 'onBoxViewTapped'
+

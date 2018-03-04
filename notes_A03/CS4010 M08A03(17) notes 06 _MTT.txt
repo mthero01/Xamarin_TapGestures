@@ -1,0 +1,60 @@
+//?
+  ///
+  protected void onStartGameButtonClicked(object sender, EventArgs args) 
+  { 
+    gameEnded = false; 
+    startGameButton.IsVisible = false; 
+    
+    InitializeBoxViewColors(); 
+    
+    sequence.Clear(); 
+    StartSequence(); 
+  }// /hdlr 'onStartGameButtonClicked'
+
+  ///
+  void StartSequence() 
+  { 
+    sequence.Add(random.Next(4)); 
+    sequenceIndex = 0; 
+    Device.StartTimer(TimeSpan.FromMilliseconds(sequenceTime), onTimerTick); 
+  }// /meth 'StartSequence'
+// /?
+
+//...
+
+  /// 
+  protected void onBoxViewTapped(object sender, EventArgs args) 
+  { 
+    /// 01. Filters
+    /// Do nothing if the game has already ended.
+    if (gameEnded) 
+      return; 
+    
+    /// But, if you're no longer listening for taps, it probably s/b.
+    if (!awaitingTaps)
+    {
+      EndGame();
+      return;
+    }// /if '!awaitingTaps'
+
+    /// 02. init
+    BoxView tappedBoxView = (BoxView)sender;    
+    int index = Array.IndexOf(boxViews, tappedBoxView);
+    
+    /// 
+    if(index != sequence[sequenceIndex])
+    {
+      EndGame();
+      return;
+    }// /if (?)
+
+    ///
+    FlashBoxView(index);
+
+    ///
+    sequenceIndex++;
+    awaitingTaps = (sequenceIndex < sequence.Count);
+    
+    
+
+}// /cla 'MonkeyTapPage'

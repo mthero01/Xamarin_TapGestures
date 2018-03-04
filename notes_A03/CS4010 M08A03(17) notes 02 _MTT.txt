@@ -1,0 +1,7 @@
+<!-- ?-->
+<BoxView Color="Navy" name="boxViewNavy">
+  <BoxView.GestureRecognizers>
+    <TapGestureRecognizer Tapped="onBoxViewTapped" />
+  </BoxView.GestureRecognizers>
+</BoxView>
+
